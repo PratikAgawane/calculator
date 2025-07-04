@@ -1,38 +1,86 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+body {
+  
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   min-height: 100vh;
+}
+
+
+.calculator {
+  animation: fadeIn 0.5s ease-in-out;
+  width: 90%;
+  max-width: 360px;
+  margin: 2rem auto;
+  padding: 1.2rem;
+  border: 5px solid #9e4646;
+  border-radius: 20px;
+  box-shadow: 0 4px 30px rgba(73, 33, 33, 0.801);
+ background: rgba(228, 114, 114, 0.9); /* semi-transparent */
+  backdrop-filter: blur(4px);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+.display {
+  background: #222;
+  color: #0f0;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  font-family: monospace;
+}
+
+.expression {
+  font-size: 1.2rem;
+}
+
+.result {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+@media screen and (max-width: 400px) {
+  button {
+    padding: 0.8rem;
+    font-size: 1rem;
+  }
+}
+button {
+  padding: 1rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 5px;
+  background: #eee;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  background: #ddd;
+}
+
+.history {
+  font-size: 0.9rem;
+  color: #444;
+}
+/* Full screen container */
+.app-wrapper {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  justify-content: center;   /* horizontal */
+  align-items: center;       /* vertical */
+  min-height: 100vh;         /* full screen */
+  background-image: url('./assets/calculatorbg.jpg'); /* or from public */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
