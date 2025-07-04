@@ -52,7 +52,8 @@ useEffect(() => {
 
   window.addEventListener('keydown', handleKeyDown);
   return () => window.removeEventListener('keydown', handleKeyDown);
-}, [expression]);
+}, [expression, handleEquals, handleClick, handleDelete, handleClear]);
+
 
 
   return (
