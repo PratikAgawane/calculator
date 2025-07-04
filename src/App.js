@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState , useEffect , useCallback} from 'react';
 import './App.css';
 import bgImage from './assets/calculatorbg.jpg';
 import { evaluate } from 'mathjs';
@@ -15,45 +15,47 @@ useEffect(() => {
   localStorage.setItem('calc-history', JSON.stringify(history));
 }, [history]);
 
-  const handleClick = (value) => {
-    setExpression(prev => prev + value);
-  };
+ const handleClick = useCallback((value) => {
+  setExpression(prev => prev + value);
+}, []);
 
-  const handleClear = () => {
-    setExpression('');
-    setResult('');
-  };
+const handleClear = useCallback(() => {
+  setExpression('');
+  setResult('');
+}, []);
 
-  const handleDelete = () => {
-    setExpression(prev => prev.slice(0, -1));
-  };
+const handleDelete = useCallback(() => {
+  setExpression(prev => prev.slice(0, -1));
+}, []);
 
-  const handleEquals = () => {
-    try {
-      const cleanedExpression = expression.replace(/%/g, '/100');
-      const evalResult = evaluate(cleanedExpression); 
-      setResult(evalResult);
-      setHistory(prev => [`${expression} = ${evalResult}`, ...prev]);
-    } catch {
-      setResult('Error');
-    }
-  };
-  useEffect(() => {
+const handleEquals = useCallback(() => {
+  try {
+    const cleanedExpression = expression.replace(/%/g, '/100');
+    const evalResult = evaluate(cleanedExpression);
+    setResult(evalResult);
+    setHistory(prev => [`${expression} = ${evalResult}`, ...prev]);
+  } catch {
+    setResult('Error');
+  }
+}, [expression]);
+
+ useEffect(() => {
   const handleKeyDown = (e) => {
-    const keys = '0123456789+-*/.=';
+    const keys = '0123456789+-*/.=%()';
     if (keys.includes(e.key)) {
-      if (e.key === '=') handleEquals();
+      if (e.key === '=' || e.key === 'Enter') handleEquals();
       else handleClick(e.key);
     }
-    if (e.key === 'Enter') handleEquals();
     if (e.key === 'Backspace') handleDelete();
     if (e.key === 'Escape') handleClear();
   };
 
   window.addEventListener('keydown', handleKeyDown);
   return () => window.removeEventListener('keydown', handleKeyDown);
-}, [expression, handleEquals, handleClick, handleDelete, handleClear]);
+}, [handleEquals, handleClick, handleDelete, handleClear]);
 
+
+ 
 
 
   return (
