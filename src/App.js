@@ -1,11 +1,19 @@
 import React, { useState , useEffect} from 'react';
 import './App.css';
 import bgImage from './assets/calculatorbg.jpg';
+import { evaluate } from 'mathjs';
+
 
 function App() {
   const [expression, setExpression] = useState('');
   const [result, setResult] = useState('');
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState(() => {
+  const saved = localStorage.getItem('calc-history');
+  return saved ? JSON.parse(saved) : [];
+});
+useEffect(() => {
+  localStorage.setItem('calc-history', JSON.stringify(history));
+}, [history]);
 
   const handleClick = (value) => {
     setExpression(prev => prev + value);
@@ -23,7 +31,7 @@ function App() {
   const handleEquals = () => {
     try {
       const cleanedExpression = expression.replace(/%/g, '/100');
-      const evalResult = eval(cleanedExpression); // ⚠️ only for learning, not production
+      const evalResult = evaluate(cleanedExpression); 
       setResult(evalResult);
       setHistory(prev => [`${expression} = ${evalResult}`, ...prev]);
     } catch {
